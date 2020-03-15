@@ -16,4 +16,5 @@
     <string name="equals">=</string>
     <string name="div">/</string>
     <string name="c">C</string>
+    <string name="result_will_be_displayed_here">Result will be displayed here</string>
 </resources>
