@@ -11,8 +11,9 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
     TextView tvResult;
     Button btn1,btn2,btn3,btn4,btn5,btn6,btn7,btn8,btn9,btn0,btnplus,btnminus,btnmult,btndiv,btnequals,btnclear;
-    double num1,num2,result;
-    String s="";
+    long  num1,num2,result;
+    String s="",s1,s2;
+    char op;
 
 
     @Override
@@ -112,28 +113,32 @@ public class MainActivity extends AppCompatActivity {
         btnplus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                s=s+" + ";
+                s=s+"+";
+                op ='+';
                 tvResult.setText(s);
             }
         });
         btnminus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                s=s+" - ";
+                s=s+"-";
+                op ='-';
                 tvResult.setText(s);
             }
         });
         btnmult.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                s=s+" x ";
+                s=s+"x";
+                op='*';
                 tvResult.setText(s);
             }
         });
         btndiv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                s=s+" / ";
+                s=s+"/";
+                op='/';
                 tvResult.setText(s);
             }
         });
@@ -147,8 +152,60 @@ public class MainActivity extends AppCompatActivity {
         btnequals.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                switch(op) {
+                    case '+':s=add();
+                             break;
+                    case '-':s=sub();
+                            break;
+                    case '*':s=mult();
+                            break;
+                    case '/':s=div();
+                            break;
+                    default:
+                        tvResult.setText(s);
+                }
+                tvResult.setText(s);
             }
         });
+
+    }
+    public String add(){
+        int operand = s.indexOf("+");
+        s1=s.substring(0,operand);
+        s2=s.substring(operand+1,s.length());
+        num1=Long.parseLong(s1);
+        num2=Long.parseLong(s2);
+        result=num1+num2;
+        return String.valueOf(result);
+    }
+    public String sub(){
+        int operand = s.indexOf("-");
+        s1=s.substring(0,operand);
+        s2=s.substring(operand+1,s.length());
+        num1=Long.parseLong(s1);
+        num2=Long.parseLong(s2);
+        result=num1-num2;
+        return String.valueOf(num1-num2);
+    }
+    public String mult(){
+        int operand = s.indexOf("x");
+        s1=s.substring(0,operand);
+        s2=s.substring(operand+1,s.length());
+        num1=Long.parseLong(s1);
+        num2=Long.parseLong(s2);
+        result=num1*num2;
+        return String.valueOf(result);
+    }
+    public String div(){
+        int operand = s.indexOf("/");
+        s1=s.substring(0,operand);
+        s2=s.substring(operand+1,s.length());
+        num1=Long.parseLong(s1);
+        num2=Long.parseLong(s2);
+        if(num2==0){
+            return "cannot divide by zero('press C to continue')";
+        }
+        result=num1/num2;
+        return String.valueOf(result);
     }
 }
