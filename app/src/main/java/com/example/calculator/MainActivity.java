@@ -140,9 +140,15 @@ public class MainActivity extends AppCompatActivity {
         btnclear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tvResult.setText(" ");
+                s="";
+                tvResult.setText(s);
             }
         });
+        btnequals.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+            }
+        });
     }
 }
