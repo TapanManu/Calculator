@@ -17,4 +17,6 @@
     <string name="div">/</string>
     <string name="c">C</string>
     <string name="result_will_be_displayed_here">Result will be displayed here</string>
+    <string name="dot">.</string>
+    <string name="back"><![CDATA[<<]]></string>
 </resources>

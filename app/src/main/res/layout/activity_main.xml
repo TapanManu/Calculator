@@ -105,20 +105,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
-        android:background="#8CC3EF"
+        android:background="#F28CC3EF"
         android:text="@string/_0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn7" />
 
     <Button
         android:id="@+id/btnequals"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="1dp"
+        android:layout_width="266dp"
+        android:layout_height="59dp"
+        android:layout_marginStart="12dp"
         android:background="#8CC3EF"
         android:text="@string/equals"
-        app:layout_constraintStart_toEndOf="@+id/btn0"
-        app:layout_constraintTop_toBottomOf="@+id/btn8" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn0" />
 
     <Button
         android:id="@+id/btnplus"
@@ -153,10 +153,10 @@
 
     <Button
         android:id="@+id/btndiv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="88dp"
+        android:layout_height="50dp"
         android:layout_marginStart="1dp"
-        android:background="#8CC3EF"
+        android:background="#F28CC3EF"
         android:text="@string/div"
         app:layout_constraintStart_toEndOf="@+id/btnclear"
         app:layout_constraintTop_toBottomOf="@+id/btnmult" />
@@ -166,9 +166,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="1dp"
-        android:background="#8CC3EF"
+        android:background="#F28CC3EF"
         android:text="@string/c"
-        app:layout_constraintStart_toEndOf="@+id/btnequals"
+        app:layout_constraintStart_toEndOf="@+id/btndot"
         app:layout_constraintTop_toBottomOf="@+id/btn9" />
 
     <androidx.constraintlayout.widget.Barrier
@@ -188,5 +188,27 @@
         android:textColor="#FFFFFF"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btndot"
+        android:layout_width="88dp"
+        android:layout_height="49dp"
+        android:layout_marginStart="1dp"
+        android:background="#F28CC3EF"
+        android:gravity="center_horizontal|center_vertical"
+        android:text="@string/dot"
+        android:textSize="22sp"
+        app:layout_constraintStart_toEndOf="@+id/btn0"
+        app:layout_constraintTop_toBottomOf="@+id/btn8" />
+
+    <Button
+        android:id="@+id/btnBack"
+        android:layout_width="88dp"
+        android:layout_height="57dp"
+        android:layout_marginStart="1dp"
+        android:background="#8CC3EF"
+        android:text="@string/back"
+        app:layout_constraintStart_toEndOf="@+id/btnequals"
+        app:layout_constraintTop_toBottomOf="@+id/btndiv" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

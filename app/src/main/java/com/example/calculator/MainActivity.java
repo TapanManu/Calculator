@@ -8,12 +8,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
+
 public class MainActivity extends AppCompatActivity {
     TextView tvResult;
-    Button btn1,btn2,btn3,btn4,btn5,btn6,btn7,btn8,btn9,btn0,btnplus,btnminus,btnmult,btndiv,btnequals,btnclear;
-    long  num1,num2,result;
+    Button btn1,btn2,btn3,btn4,btn5,btn6,btn7,btn8,btn9,btn0,
+            btnplus,btnminus,btnmult,btndiv,btnequals,
+            btnclear,btndot,btnBack;
+    Double  num1,num2,result;
     String s="",s1,s2;
     char op;
+    DecimalFormat df = new DecimalFormat("#.####");
 
 
     @Override
@@ -37,8 +42,8 @@ public class MainActivity extends AppCompatActivity {
         btndiv=findViewById(R.id.btndiv);
         btnequals=findViewById(R.id.btnequals);
         btnclear=findViewById(R.id.btnclear);
-
-
+        btndot=findViewById(R.id.btndot);
+        btnBack=findViewById(R.id.btnBack);
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -167,45 +172,61 @@ public class MainActivity extends AppCompatActivity {
                 tvResult.setText(s);
             }
         });
+        btndot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                s=s+".";
+                tvResult.setText(s);
+            }
+        });
+        btnBack.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                if(!s.equals("")) {
+                    s = s.substring(0, s.length() - 1);
+                    tvResult.setText(s);
+                }
+            }
+        });
 
     }
     public String add(){
         int operand = s.indexOf("+");
         s1=s.substring(0,operand);
         s2=s.substring(operand+1,s.length());
-        num1=Long.parseLong(s1);
-        num2=Long.parseLong(s2);
+        num1=Double.parseDouble(s1);
+        num2=Double.parseDouble(s2);
         result=num1+num2;
-        return String.valueOf(result);
+        return String.valueOf(df.format(result));
     }
     public String sub(){
         int operand = s.indexOf("-");
         s1=s.substring(0,operand);
         s2=s.substring(operand+1,s.length());
-        num1=Long.parseLong(s1);
-        num2=Long.parseLong(s2);
+        num1=Double.parseDouble(s1);
+        num2=Double.parseDouble(s2);
         result=num1-num2;
-        return String.valueOf(num1-num2);
+        return String.valueOf(df.format(result));
     }
     public String mult(){
         int operand = s.indexOf("x");
         s1=s.substring(0,operand);
         s2=s.substring(operand+1,s.length());
-        num1=Long.parseLong(s1);
-        num2=Long.parseLong(s2);
+        num1=Double.parseDouble(s1);
+        num2=Double.parseDouble(s2);
         result=num1*num2;
-        return String.valueOf(result);
+        return String.valueOf(df.format(result));
     }
     public String div(){
         int operand = s.indexOf("/");
         s1=s.substring(0,operand);
         s2=s.substring(operand+1,s.length());
-        num1=Long.parseLong(s1);
-        num2=Long.parseLong(s2);
+        num1=Double.parseDouble(s1);
+        num2=Double.parseDouble(s2);
         if(num2==0){
             return "cannot divide by zero('press C to continue')";
         }
         result=num1/num2;
-        return String.valueOf(result);
+        return String.valueOf(df.format(result));
     }
 }
