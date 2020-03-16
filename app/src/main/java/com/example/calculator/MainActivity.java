@@ -175,6 +175,8 @@ public class MainActivity extends AppCompatActivity {
         btndot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(s.equals(""))
+                    s="0";
                 s=s+".";
                 tvResult.setText(s);
             }
