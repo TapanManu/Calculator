@@ -10,7 +10,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.EmptyStackException;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
@@ -52,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         btnclear=findViewById(R.id.btnclear);
         btndot=findViewById(R.id.btndot);
         btnBack=findViewById(R.id.btnBack);
-
+        greetings();
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -167,28 +169,27 @@ public class MainActivity extends AppCompatActivity {
         });
         btnequals.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                switch(op) {
-                    case '+':s=add();
-                             break;
-                    case '-':s=sub();
-                            break;
-                    case '*':s=mult();
-                            break;
-                    case '/':s=div();
-                            break;
-                    default:
-                        tvResult.setText(s);
+
+                public void onClick (View v){
+                try {
+                    String r = Expression.resultDisp(s);
+                    if (r == null) {
+                        tvResult.setVisibility(View.INVISIBLE);
+                        resultSpeaker("I am sorry ,its an Invalid expression!!");
+                        status = false;
+                    } else
+                        tvResult.setVisibility(View.VISIBLE);
+                    tvResult.setText(r);
+                    resultSpeaker("The final result is " + df.format(Double.parseDouble(r)));
                 }
-                if(status) {
+                catch(NumberFormatException| NullPointerException| EmptyStackException e){
+                    resultSpeaker("I am sorry,invalid operation done,press C to resume");
                     tvResult.setVisibility(View.INVISIBLE);
-                    status = false;
                 }
-                else
-                    tvResult.setVisibility(View.VISIBLE);
-                    tvResult.setText(s);
-                    resultSpeaker(s);
             }
+
+
+
         });
         btndot.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -215,50 +216,7 @@ public class MainActivity extends AppCompatActivity {
         status = false;
         tvResult.setVisibility(View.VISIBLE);
     }
-    public String add(){
-        int operand = s.indexOf("+");
-        s1=s.substring(0,operand);
-        s2=s.substring(operand+1,s.length());
-       // operationSpeaker(s1+"plus"+s2);
-        num1=Double.parseDouble(s1);
-        num2=Double.parseDouble(s2);
-        result=num1+num2;
-        return String.valueOf(df.format(result));
-    }
-    public String sub(){
-        int operand = s.indexOf("-");
-        s1=s.substring(0,operand);
-        s2=s.substring(operand+1,s.length());
-        //operationSpeaker(s1+"minus"+s2);
-        num1=Double.parseDouble(s1);
-        num2=Double.parseDouble(s2);
-        result=num1-num2;
-        return String.valueOf(df.format(result));
-    }
-    public String mult(){
-        int operand = s.indexOf("x");
-        s1=s.substring(0,operand);
-        s2=s.substring(operand+1,s.length());
-        //operationSpeaker(s1+"into"+s2);
-        num1=Double.parseDouble(s1);
-        num2=Double.parseDouble(s2);
-        result=num1*num2;
-        return String.valueOf(df.format(result));
-    }
-    public String div(){
-        int operand = s.indexOf("/");
-        s1=s.substring(0,operand);
-        s2=s.substring(operand+1,s.length());
-        //operationSpeaker(s1+"by"+s2);
-        num1=Double.parseDouble(s1);
-        num2=Double.parseDouble(s2);
-        if(num2==0){
-            status=true;
-            return "cannot divide by zero('press C to continue')";
-        }
-        result=num1/num2;
-        return String.valueOf(df.format(result));
-    }
+
     private void init() {
         t1 = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
             @Override
