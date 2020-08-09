@@ -2,13 +2,16 @@ package com.example.calculator;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.os.Build;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import java.text.DecimalFormat;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     TextView tvResult;
@@ -16,16 +19,21 @@ public class MainActivity extends AppCompatActivity {
             btnplus,btnminus,btnmult,btndiv,btnequals,
             btnclear,btndot,btnBack;
     Double  num1,num2,result;
+    boolean status;
     String s="",s1,s2;
     char op;
     DecimalFormat df = new DecimalFormat("#.####");
+    TextToSpeech t1;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        init();
+
         tvResult=findViewById(R.id.tvResult);
+        tvResult.setVisibility(View.VISIBLE);
         btn1=findViewById(R.id.btn1);
         btn2=findViewById(R.id.btn2);
         btn3=findViewById(R.id.btn3);
@@ -44,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
         btnclear=findViewById(R.id.btnclear);
         btndot=findViewById(R.id.btndot);
         btnBack=findViewById(R.id.btnBack);
+
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -151,7 +160,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 s="";
+                tvResult.setVisibility(View.VISIBLE);
                 tvResult.setText(s);
+
             }
         });
         btnequals.setOnClickListener(new View.OnClickListener() {
@@ -169,7 +180,14 @@ public class MainActivity extends AppCompatActivity {
                     default:
                         tvResult.setText(s);
                 }
-                tvResult.setText(s);
+                if(status) {
+                    tvResult.setVisibility(View.INVISIBLE);
+                    status = false;
+                }
+                else
+                    tvResult.setVisibility(View.VISIBLE);
+                    tvResult.setText(s);
+                    resultSpeaker(s);
             }
         });
         btndot.setOnClickListener(new View.OnClickListener() {
@@ -192,10 +210,16 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+    public void onResume(){
+        super.onResume();
+        status = false;
+        tvResult.setVisibility(View.VISIBLE);
+    }
     public String add(){
         int operand = s.indexOf("+");
         s1=s.substring(0,operand);
         s2=s.substring(operand+1,s.length());
+       // operationSpeaker(s1+"plus"+s2);
         num1=Double.parseDouble(s1);
         num2=Double.parseDouble(s2);
         result=num1+num2;
@@ -205,6 +229,7 @@ public class MainActivity extends AppCompatActivity {
         int operand = s.indexOf("-");
         s1=s.substring(0,operand);
         s2=s.substring(operand+1,s.length());
+        //operationSpeaker(s1+"minus"+s2);
         num1=Double.parseDouble(s1);
         num2=Double.parseDouble(s2);
         result=num1-num2;
@@ -214,6 +239,7 @@ public class MainActivity extends AppCompatActivity {
         int operand = s.indexOf("x");
         s1=s.substring(0,operand);
         s2=s.substring(operand+1,s.length());
+        //operationSpeaker(s1+"into"+s2);
         num1=Double.parseDouble(s1);
         num2=Double.parseDouble(s2);
         result=num1*num2;
@@ -223,12 +249,37 @@ public class MainActivity extends AppCompatActivity {
         int operand = s.indexOf("/");
         s1=s.substring(0,operand);
         s2=s.substring(operand+1,s.length());
+        //operationSpeaker(s1+"by"+s2);
         num1=Double.parseDouble(s1);
         num2=Double.parseDouble(s2);
         if(num2==0){
+            status=true;
             return "cannot divide by zero('press C to continue')";
         }
         result=num1/num2;
         return String.valueOf(df.format(result));
+    }
+    private void init() {
+        t1 = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if (status != TextToSpeech.ERROR) {
+                    t1.setLanguage(Locale.UK);
+                    //t1.setPitch(0.5f);
+                }
+            }
+        });
+    }
+    private void greetings(){
+        String Greetings = "Hi all, Welcome to your calc app!";
+        t1.speak(Greetings,TextToSpeech.QUEUE_FLUSH,null,null);
+    }
+    private void resultSpeaker(String result){
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            t1.speak(result,TextToSpeech.QUEUE_FLUSH,null,null);
+        } else {
+            t1.speak(result, TextToSpeech.QUEUE_FLUSH, null);
+        }
     }
 }
