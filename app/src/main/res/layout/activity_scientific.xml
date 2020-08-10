@@ -12,10 +12,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="156dp"
+        android:layout_marginEnd="167dp"
         android:background="#8CC3EF"
         android:text="@string/equals"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btncos" />
+        app:layout_constraintTop_toBottomOf="@+id/btncosh" />
 
     <TextView
         android:id="@+id/tvResult2"
@@ -62,5 +64,35 @@
         android:text="@string/sin"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnsinh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="68dp"
+        android:background="#BF8CC3EF"
+        android:text="@string/sinh"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnsin" />
+
+    <Button
+        android:id="@+id/btncosh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="1dp"
+        android:background="#BF8CC3EF"
+        android:text="@string/cosh"
+        app:layout_constraintStart_toEndOf="@+id/btnsinh"
+        app:layout_constraintTop_toBottomOf="@+id/btncos" />
+
+    <Button
+        android:id="@+id/btntanh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="1dp"
+        android:background="#BF8CC3EF"
+        android:text="@string/tanh"
+        app:layout_constraintStart_toEndOf="@+id/btncosh"
+        app:layout_constraintTop_toBottomOf="@+id/btntan" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

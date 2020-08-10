@@ -29,5 +29,8 @@
     <string name="log">log</string>
     <string name="ln">ln</string>
     <string name="sin">sin</string>
+    <string name="sinh">sinh</string>
+    <string name="cosh">cosh</string>
+    <string name="tanh">tanh</string>
 
 </resources>

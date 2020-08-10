@@ -305,9 +305,32 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode== Activity.RESULT_OK && requestCode==10){
             String result = data.getStringExtra("result");
+
             tvResult.setText(result);
             valid=false;
-            resultSpeaker("The final result is " + df.format(Double.parseDouble(result)));
+            if(result.equals("infinity"))
+                resultSpeaker("The final result is infinity");
+            else {
+                if(result.contains("E")){
+                    String r[] = result.split("E");
+                    //Log.d("first",r[0]);
+                    resultSpeaker("The final result is " + df.format(Double.parseDouble(r[0])) + " e raise to "+r[1]);
+                }
+                else
+                resultSpeaker("The final result is " + df.format(Double.parseDouble(result)));
+            }
+        }
+        if(resultCode== Activity.RESULT_CANCELED && requestCode==10){
+            String error;
+            try {
+                 error = data.getStringExtra("error");
+            }
+            catch(NullPointerException e){
+                error="Invalid expression";
+            }
+            //tvResult.setText(result);
+            valid=false;
+            resultSpeaker("I am sorry"+error+",Press C to Resume");
         }
     }
 
