@@ -5,6 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Build;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     TextView tvResult;
     Button btn1,btn2,btn3,btn4,btn5,btn6,btn7,btn8,btn9,btn0,
             btnplus,btnminus,btnmult,btndiv,btnequals,
-            btnclear,btndot,btnBack;
+            btnclear,btndot,btnBack,btnOpen,btnClose;
     Double  num1,num2,result;
     boolean status;
     String s="",s1,s2;
@@ -28,12 +31,21 @@ public class MainActivity extends AppCompatActivity {
     TextToSpeech t1;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         init();
 
+        //portrait mode
+        if(findViewById(R.id.layout_portrait)!=null){
+
+        }
+        //landscape mode
+        if(findViewById(R.id.layout_land)!=null){
+
+        }
         tvResult=findViewById(R.id.tvResult);
         tvResult.setVisibility(View.VISIBLE);
         btn1=findViewById(R.id.btn1);
@@ -54,7 +66,9 @@ public class MainActivity extends AppCompatActivity {
         btnclear=findViewById(R.id.btnclear);
         btndot=findViewById(R.id.btndot);
         btnBack=findViewById(R.id.btnBack);
-        greetings();
+        btnOpen=findViewById(R.id.btnopen);
+        btnClose=findViewById(R.id.btnclose);
+
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -167,6 +181,24 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+        btnOpen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                s=s+"(";
+                tvResult.setVisibility(View.VISIBLE);
+                tvResult.setText(s);
+
+            }
+        });
+        btnClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                s=s+")";
+                tvResult.setVisibility(View.VISIBLE);
+                tvResult.setText(s);
+
+            }
+        });
         btnequals.setOnClickListener(new View.OnClickListener() {
             @Override
 
@@ -211,6 +243,18 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.menu,menu);
+        return true;
+    }
+    public boolean onOptionsItemSelected(MenuItem item){
+        //add an intent and start an activity for result to display scientific aspects
+        return true;
+    }
+    public void onStart(){
+        super.onStart();
+        greetings();
+    }
     public void onResume(){
         super.onResume();
         status = false;
@@ -226,11 +270,16 @@ public class MainActivity extends AppCompatActivity {
                     //t1.setPitch(0.5f);
                 }
             }
+
         });
     }
     private void greetings(){
         String Greetings = "Hi all, Welcome to your calc app!";
-        t1.speak(Greetings,TextToSpeech.QUEUE_FLUSH,null,null);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            t1.speak(Greetings,TextToSpeech.QUEUE_FLUSH,null,null);
+        } else {
+            t1.speak(Greetings, TextToSpeech.QUEUE_FLUSH, null);
+        }
     }
     private void resultSpeaker(String result){
 
@@ -240,4 +289,5 @@ public class MainActivity extends AppCompatActivity {
             t1.speak(result, TextToSpeech.QUEUE_FLUSH, null);
         }
     }
+
 }

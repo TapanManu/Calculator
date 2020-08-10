@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/layout_portrait"
     android:background="@android:color/holo_blue_dark">
 
     <Button
@@ -112,8 +113,8 @@
 
     <Button
         android:id="@+id/btnequals"
-        android:layout_width="266dp"
-        android:layout_height="59dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:background="#8CC3EF"
         android:text="@string/equals"
@@ -153,8 +154,8 @@
 
     <Button
         android:id="@+id/btndiv"
-        android:layout_width="88dp"
-        android:layout_height="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="1dp"
         android:background="#F28CC3EF"
         android:text="@string/div"
@@ -204,12 +205,32 @@
 
     <Button
         android:id="@+id/btnBack"
-        android:layout_width="88dp"
-        android:layout_height="57dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="1dp"
         android:background="#8CC3EF"
         android:text="@string/back"
         app:layout_constraintStart_toEndOf="@+id/btnequals"
+        app:layout_constraintTop_toBottomOf="@+id/btndiv" />
+
+    <Button
+        android:id="@+id/btnopen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="1dp"
+        android:background="#8CC3EF"
+        android:text="@string/open"
+        app:layout_constraintStart_toEndOf="@+id/btnBack"
+        app:layout_constraintTop_toBottomOf="@+id/btnclear" />
+
+    <Button
+        android:id="@+id/btnclose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="1dp"
+        android:background="#8CC3EF"
+        android:text="@string/close"
+        app:layout_constraintStart_toEndOf="@+id/btnopen"
         app:layout_constraintTop_toBottomOf="@+id/btndiv" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
