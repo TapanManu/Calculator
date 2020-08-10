@@ -1,7 +1,10 @@
 package com.example.calculator;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
@@ -9,6 +12,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ActionMenuView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -24,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
             btnplus,btnminus,btnmult,btndiv,btnequals,
             btnclear,btndot,btnBack,btnOpen,btnClose;
     Double  num1,num2,result;
-    boolean status;
+    boolean status,valid;
     String s="",s1,s2;
     char op;
     DecimalFormat df = new DecimalFormat("#.####");
@@ -37,15 +41,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         init();
-
-        //portrait mode
-        if(findViewById(R.id.layout_portrait)!=null){
-
-        }
-        //landscape mode
-        if(findViewById(R.id.layout_land)!=null){
-
-        }
+        greetings();
+        valid=true;
         tvResult=findViewById(R.id.tvResult);
         tvResult.setVisibility(View.VISIBLE);
         btn1=findViewById(R.id.btn1);
@@ -203,21 +200,29 @@ public class MainActivity extends AppCompatActivity {
             @Override
 
                 public void onClick (View v){
-                try {
-                    String r = Expression.resultDisp(s);
-                    if (r == null) {
+                if(valid) {
+                    try {
+                        String r = Expression.resultDisp(s);
+                        if (r == null) {
+                            tvResult.setVisibility(View.INVISIBLE);
+                            resultSpeaker("I am sorry ,its an Invalid expression!!");
+                            status = false;
+                        } else
+                            tvResult.setVisibility(View.VISIBLE);
+                        tvResult.setText(r);
+                        resultSpeaker("The final result is " + df.format(Double.parseDouble(r)));
+                    } catch (NumberFormatException | NullPointerException | EmptyStackException e) {
+                        resultSpeaker("I am sorry,invalid operation done,press C to resume");
                         tvResult.setVisibility(View.INVISIBLE);
-                        resultSpeaker("I am sorry ,its an Invalid expression!!");
-                        status = false;
-                    } else
-                        tvResult.setVisibility(View.VISIBLE);
-                    tvResult.setText(r);
-                    resultSpeaker("The final result is " + df.format(Double.parseDouble(r)));
+                    }
                 }
-                catch(NumberFormatException| NullPointerException| EmptyStackException e){
-                    resultSpeaker("I am sorry,invalid operation done,press C to resume");
-                    tvResult.setVisibility(View.INVISIBLE);
+                else{
+                    s="";
+                    tvResult.setVisibility(View.VISIBLE);
+                    tvResult.setText(s);
+                    valid=true;
                 }
+
             }
 
 
@@ -248,12 +253,19 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
     public boolean onOptionsItemSelected(MenuItem item){
-        //add an intent and start an activity for result to display scientific aspects
+        switch(item.getItemId()){
+            case R.id.sc:
+                Intent intent = new Intent(MainActivity.this,Scientific.class);
+                intent.putExtra("result",tvResult.getText().toString());
+                startActivityForResult(intent,10);
+                break;
+
+        }
         return true;
     }
     public void onStart(){
         super.onStart();
-        greetings();
+
     }
     public void onResume(){
         super.onResume();
@@ -287,6 +299,15 @@ public class MainActivity extends AppCompatActivity {
             t1.speak(result,TextToSpeech.QUEUE_FLUSH,null,null);
         } else {
             t1.speak(result, TextToSpeech.QUEUE_FLUSH, null);
+        }
+    }
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode== Activity.RESULT_OK && requestCode==10){
+            String result = data.getStringExtra("result");
+            tvResult.setText(result);
+            valid=false;
+            resultSpeaker("The final result is " + df.format(Double.parseDouble(result)));
         }
     }
 

@@ -23,5 +23,11 @@
     <string name="scientific">Scientific</string>
     <string name="open">(</string>
     <string name="close">)</string>
+    <string name="exp">^</string>
+    <string name="cos">cos</string>
+    <string name="tan">tan</string>
+    <string name="log">log</string>
+    <string name="ln">ln</string>
+    <string name="sin">sin</string>
 
 </resources>
